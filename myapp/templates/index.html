@@ -4,7 +4,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Chewy" rel="stylesheet">
     <title>Instagram Clone</title>
+
+    <style>
+        body{
+            text-align: center;
+            background-image: url("http://i.imgur.com/vLIN541.png");
+            background-size: cover;
+            color: seashell;
+        }
+        table{
+            text-align: center;
+            margin-left:40%;
+            border-style: solid;
+            border-color: DodgerBlue;
+            border-radius: 10px;
+            border-width: 5px 5px 5px 5px;
+        }
+        input {
+      border: 1;
+      padding: 5px;
+    }
+    input[type="submit"] {
+      padding: 10px;
+      background: DeepSkyBlue;
+      color: white;
+      border-style: solid;
+      border-color: DodgerBlue;
+      border-radius: 10px;
+      }
+    h1{
+        font-family: 'Chewy', cursive;
+      font-size: 50px;
+      color: mistyrose;
+    }
+    label {
+    color: aliceblue;
+    font-weight: bold;
+    display: block;
+    width: 100px;
+    float: left;
+    }
+    a {
+    color: aquamarine;
+    font-size: 20px;
+    }
+    </style>
 </head>
 <body>
 	<div class="main">
@@ -16,25 +62,41 @@
     <div>
         <form method="post">{% csrf_token %}
 
-            <div>
-                <label for="username">Username: </label>
-                <input id="username" type="text" name="username" value={{ username }}>
-            </div>
-
-            <div>
-                <label for="name">Name: </label>
-                <input id="name" type="text" name="name" value={{ name }}>
-            </div>
-
-            <div>
-                <label for="email">Email: </label>
-                <input id="email" type="text" name="email" value={{ email }}>
-            </div>
-
-            <div>
-                <label for="password">Password: </label>
-                <input id="password" type="password" name="password" value={{ password }}>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <label for="username">Username: </label>
+                    </td>
+                    <td>
+                        <input id="username" type="text" name="username" value={{ username }}>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="name">Name: </label>
+                    </td>
+                    <td>
+                        <input id="name" type="text" name="name" value={{ name }}>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email: </label>
+                    </td>
+                    <td>
+                        <input id="email" type="text" name="email" value={{ email }}>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <label for="password">Password: </label>
+                    </td>
+                    <td>
+                        <input id="password" type="password" name="password" value={{ password }}>
+                    </td>
+                </tr>
+            </table>
+            <br>
                 <input type="submit" value="Sign Up">
         </form>
 
