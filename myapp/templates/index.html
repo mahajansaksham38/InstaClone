@@ -60,7 +60,7 @@
     </div>
 
     <div>
-        <form method="post">{% csrf_token %}
+        <form name="form2" id="form2" onsubmit="return validate()" method="post">{% csrf_token %}
 
             <table>
                 <tr>
@@ -69,7 +69,9 @@
                     </td>
                     <td>
                         <input id="username" type="text" name="username" value={{ username }}>
+
                     </td>
+
                 </tr>
                 <tr>
                     <td>
@@ -78,6 +80,7 @@
                     <td>
                         <input id="name" type="text" name="name" value={{ name }}>
                     </td>
+
                 </tr>
                 <tr>
                     <td>
@@ -86,6 +89,7 @@
                     <td>
                         <input id="email" type="text" name="email" value={{ email }}>
                     </td>
+
                 </tr>
                 <tr>
                     <td>
@@ -93,15 +97,37 @@
                     </td>
                     <td>
                         <input id="password" type="password" name="password" value={{ password }}>
+
                     </td>
+
                 </tr>
             </table>
+
+
             <br>
                 <input type="submit" value="Sign Up">
         </form>
 
 
     </div><br><br>
+    <script>
+function validate() {
+
+    if(form2.username.value.length<4){
+
+        alert("Username should have atleast 4 characters!");
+    }
+    if(form2.password.value.length<5){
+
+        alert("Password should have atleast 5 characters!");
+    }
+    if(form2.name.value.length=null){
+
+        alert("Name field cannot be left empty!");
+    }
+
+}
+    </script>
 
     <div><h3>Already a user?</h3><a href="login/">Login</a> </div>
 </body>
