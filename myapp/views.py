@@ -7,6 +7,7 @@ from models import UserModel,SessionToken,PostModel,LikeModel,CommentModel,swach
 from django.contrib.auth.hashers import make_password, check_password
 from imgurpython import ImgurClient
 from InstaClone.settings import BASE_DIR
+from django.contrib import messages
 from clarifai.rest import ClarifaiApp
 import sendgrid
 from sendgrid.helpers.mail import *
@@ -29,21 +30,17 @@ def signup_view(request):
             username=form.cleaned_data['username']
             email=form.cleaned_data['email']
             password=form.cleaned_data['password']
-            if len(username)>3 and len(password)>4:
-                user = UserModel(name=name, password=make_password(password), email=email, username=username)
-                user.save()
+            user = UserModel(name=name, password=make_password(password), email=email, username=username)
+            user.save()
 
 
-                from_email = Email("support@InstaClone.com")
-                to_email = Email(email)
-                subject = "Signup Confirmation!"
-                content = Content("text/plain", "Welcome to InstaClone.Your InstaClone Signup is successful. Login and enjoy!")
-                mail = Mail(from_email, subject, to_email, content)
-                response = sg.client.mail.send.post(request_body=mail.get())
-
-                return render(request, 'success.html')
-            else:
-                return redirect('/signup/')
+            from_email = Email("support@InstaClone.com")
+            to_email = Email(email)
+            subject = "Signup Confirmation!"
+            content = Content("text/plain", "Welcome to InstaClone.Your InstaClone Signup is successful. Login and enjoy!")
+            mail = Mail(from_email, subject, to_email, content)
+            response = sg.client.mail.send.post(request_body=mail.get())
+            return render(request, 'success.html')
 
     elif request.method == 'GET':
         form = SignUpForm()
@@ -68,8 +65,11 @@ def login_view(request):
                     response.set_cookie(key='session_token', value=token.session_token)
                     return response
                 else:
-                    response_data['message'] = 'Incorrect Password! Please try again!'
-
+                    note = 'Incorrect Password! Please try again!'
+                    return render(request, 'login.html', {'note': note})
+            else:
+                note = 'Incorrect Username! Please try again!'
+                return render(request, 'login.html', {'note': note})
     elif request.method == 'GET':
         form = LoginForm()
 
@@ -162,6 +162,8 @@ def comment_view(request):
             comment_text = form.cleaned_data.get('comment_text')
             comment = CommentModel.objects.create(user=user, post_id=post_id, comment_text=comment_text)
             comment.save()
+
+            messages.success(request,'Commment successfully posted')
 
             postimg=PostModel.objects.filter(id=post_id).first()
             userid=postimg.user_id
