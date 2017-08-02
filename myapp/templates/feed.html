@@ -56,7 +56,7 @@
               <input type="hidden" name="post" value="{{ post.id }}" />
                 {% if post.has_liked %}
                 <p>You have liked this post</p>
-                <input type="submit" class="btn btn-default" value="Unlike">
+                <input style="background: red;" type="submit" class="btn btn-default" value="Unlike">
                 {% else %}
                 <p>You have not liked this post</p>
                 <input type="submit" class="btn btn-default" value="Like">
@@ -71,7 +71,22 @@
                 <input type="text" name="comment_text" id="comment_text" placeholder="Make a comment.." value="{{ comment_text }}">
                 {{ comment_text }}
                 <input type="submit" class="btn-default btn" value="Comment">
+
             </form>
+        </div>
+
+        <div class="container">
+            {% if messages %}
+            <div class="row">
+                <div class="col-xs-12">
+
+                        {% for message in messages %}
+                        <p>{{ message }}</p>
+                        {% endfor %}
+
+                </div>
+            </div>
+            {% endif %}
         </div>
 
         <div>
