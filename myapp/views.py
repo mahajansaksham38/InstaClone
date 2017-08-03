@@ -11,6 +11,7 @@ from django.contrib import messages
 from clarifai.rest import ClarifaiApp
 import sendgrid
 from sendgrid.helpers.mail import *
+import ctypes
 
 
 YOUR_CLIENT_ID="4ca4ee91e7f89bd"
@@ -32,7 +33,6 @@ def signup_view(request):
             password=form.cleaned_data['password']
             user = UserModel(name=name, password=make_password(password), email=email, username=username)
             user.save()
-
 
             from_email = Email("support@InstaClone.com")
             to_email = Email(email)
@@ -145,6 +145,8 @@ def like_view(request):
               content = Content("text/plain", "Someone just liked your post!")
               mail = Mail(from_email, subject, to_email, content)
               response = sg.client.mail.send.post(request_body=mail.get())
+
+              ctypes.windll.user32.MessageBoxW(0,'You have successfully liked this post','Success',1)
           else:
               existing_like.delete()
 
@@ -170,7 +172,6 @@ def comment_view(request):
             user=UserModel.objects.filter(id=userid).first()
             mail=user.email
 
-
             from_email = Email("support@InstaClone.com")
             to_email = Email(mail)
             subject = "Comment Notification"
@@ -184,6 +185,13 @@ def comment_view(request):
     else:
         return redirect('/login')
 
+def logout_view(request):
+    user=check_validation(request)
+    if user:
+        latest_token = SessionToken.objects.filter(user=user).last()
+        if latest_token:
+            latest_token.delete()
+    return redirect('/login/')
 
 # variant function uses clarify api to store
 def variant(post):
