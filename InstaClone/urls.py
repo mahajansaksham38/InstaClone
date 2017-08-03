@@ -19,6 +19,7 @@ from myapp.views import signup_view,login_view,feed_view,post_view,like_view,com
 
 urlpatterns = [
   url(r'^admin/', admin.site.urls),
+  url('logout',logout_view),
   url('post', post_view),
   url('feed', feed_view),
   url('like', like_view),
