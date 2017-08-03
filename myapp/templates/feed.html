@@ -22,10 +22,18 @@
     </style>
 </head>
 <body>
-    <form method="post" action="/post/">
+
+<div class="logout">
+    <form method="POST" action="/logout/">
+        {% csrf_token %}
+        <input type="submit" class="btn-logout" value="Logout">
+    </form>
+</div>
+<br>
+ <form method="post" action="/post/">
         {% csrf_token %}
         <input type="submit" class="btn-default btn" value="Create Post">
-    </form>
+ </form>
 
 
     {% for post in posts %}
@@ -88,6 +96,8 @@
             </div>
             {% endif %}
         </div>
+
+
 
         <div>
             {% for comment in post.comments %}
