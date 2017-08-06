@@ -2,8 +2,8 @@
 from __future__ import unicode_literals
 from datetime import datetime
 from django.shortcuts import render,redirect
-from forms import SignUpForm,LoginForm,PostForm,LikeForm,CommentForm
-from models import UserModel,SessionToken,PostModel,LikeModel,CommentModel,swachh_bharat
+from forms import SignUpForm,LoginForm,PostForm,LikeForm,CommentForm,UpvoteForm
+from models import UserModel,SessionToken,PostModel,LikeModel,CommentModel,swachh_bharat,UpvoteModel
 from django.contrib.auth.hashers import make_password, check_password
 from imgurpython import ImgurClient
 from InstaClone.settings import BASE_DIR
@@ -11,7 +11,6 @@ from django.contrib import messages
 from clarifai.rest import ClarifaiApp
 import sendgrid
 from sendgrid.helpers.mail import *
-import ctypes
 
 
 YOUR_CLIENT_ID="4ca4ee91e7f89bd"
@@ -146,7 +145,6 @@ def like_view(request):
               mail = Mail(from_email, subject, to_email, content)
               response = sg.client.mail.send.post(request_body=mail.get())
 
-              ctypes.windll.user32.MessageBoxW(0,'You have successfully liked this post','Success',1)
           else:
               existing_like.delete()
 
@@ -184,6 +182,20 @@ def comment_view(request):
             return redirect('/feed/')
     else:
         return redirect('/login')
+
+def upvote_view(request):
+    user = check_validation(request)
+
+    if user and request.method == 'POST':
+
+        form = UpvoteForm(request.POST)
+        if form.is_valid():
+
+            comment_id = form.cleaned_data.get('upvote').id
+            existing_upvote = UpvoteModel.objects.filter(upvote_id=comment_id,user=user).first()
+            if not existing_upvote:
+                UpvoteModel.objects.create(id=comment_id)
+        return redirect('/feed/')
 
 def logout_view(request):
     user=check_validation(request)
