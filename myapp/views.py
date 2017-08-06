@@ -187,14 +187,14 @@ def upvote_view(request):
     user = check_validation(request)
 
     if user and request.method == 'POST':
-
         form = UpvoteForm(request.POST)
         if form.is_valid():
 
             comment_id = form.cleaned_data.get('upvote').id
             existing_upvote = UpvoteModel.objects.filter(upvote_id=comment_id,user=user).first()
             if not existing_upvote:
-                UpvoteModel.objects.create(id=comment_id)
+                UpvoteModel.objects.create(upvote_id=comment_id)
+                return redirect('/feed/')
         return redirect('/feed/')
 
 def logout_view(request):
