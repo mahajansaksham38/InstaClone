@@ -31,6 +31,7 @@ class PostModel(models.Model):
   caption = models.CharField(max_length=240)
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
+  has_liked=False
 
   @property
   def like_count(self):
@@ -56,6 +57,7 @@ class CommentModel(models.Model):
   user = models.ForeignKey(UserModel)
   post = models.ForeignKey(PostModel)
   comment_text = models.CharField(max_length=555)
+
   created_on = models.DateTimeField(auto_now_add=True)
   updated_on = models.DateTimeField(auto_now=True)
 
@@ -63,6 +65,14 @@ class CommentModel(models.Model):
   def comments(self):
       return CommentModel.objects.filter(post=self).order_by('created_on')
 
+  @property
+  def upvote_count(self):
+      return len(UpvoteModel.objects.filter(upvote=self))
+
 class swachh_bharat(models.Model):
     post=models.ForeignKey(PostModel)
     text=models.CharField(max_length=555)
+
+class UpvoteModel(models.Model):
+    upvote=models.ForeignKey(CommentModel)
+
