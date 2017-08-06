@@ -1,5 +1,5 @@
 from django import forms
-from models import UserModel,PostModel,LikeModel,CommentModel
+from models import UserModel,PostModel,LikeModel,CommentModel,UpvoteModel
 
 #SignUpForm accepts entries for UserModel from User
 class SignUpForm(forms.ModelForm):
@@ -29,3 +29,11 @@ class CommentForm(forms.ModelForm):
   class Meta:
     model = CommentModel
     fields = ['comment_text', 'post']
+
+class UpvoteForm(forms.Form):
+    class Meta:
+        model=UpvoteModel
+        fields=['upvote']
+
+class SearchForm(forms.Form):
+    searchquery = forms.CharField();
