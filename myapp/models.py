@@ -75,5 +75,5 @@ class swachh_bharat(models.Model):
 
 class UpvoteModel(models.Model):
     upvote=models.ForeignKey(CommentModel)
-    user=models.ForeignKey(UserModel)
+
 
