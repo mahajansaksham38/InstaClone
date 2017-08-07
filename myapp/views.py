@@ -190,8 +190,8 @@ def upvote_view(request):
         form = UpvoteForm(request.POST)
         if form.is_valid():
 
-            comment_id = form.cleaned_data.get('upvote').id
-            existing_upvote = UpvoteModel.objects.filter(upvote_id=comment_id,user=user).first()
+            comment_id = form.cleaned_data.get('comment').id
+            existing_upvote = UpvoteModel.objects.filter(upvote_id=comment_id).first()
             if not existing_upvote:
                 UpvoteModel.objects.create(upvote_id=comment_id)
                 return redirect('/feed/')
